@@ -1,0 +1,1 @@
+- import_playbook: /usr/share/ansible/openshift-ansible/playbooks/openshift-master/config.yml

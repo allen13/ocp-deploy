@@ -1,0 +1,15 @@
+.ansible
+.idea
+.vagrant
+.bundle
+*.vdi
+*.pyc
+**/.*.swp
+**/.*.swo
+.env/
+ssl/
+*.retry
+openshift-ansible
+openshift-ansible/
+openshift-ansible-*/
+*.tar

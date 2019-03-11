@@ -1,0 +1,2 @@
+dependencies:
+  - /usr/share/ansible/openshift-ansible/playbooks/roles/lib_openshift

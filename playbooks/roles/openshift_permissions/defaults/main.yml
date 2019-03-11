@@ -1,0 +1,4 @@
+openshift_user_permissions:
+- user: admin
+  kind: cluster-role
+  role: cluster-admin

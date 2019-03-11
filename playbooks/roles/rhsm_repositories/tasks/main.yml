@@ -1,0 +1,13 @@
+- name: enable rhsm repositories
+  rhsm_repository: name={{ item }} state=enabled
+  notify: yum clean all
+  register: enable_repos
+  until: enable_repos | succeeded
+  with_items: "{{ rhsm_repositories_enabled | default([]) }}"
+
+- name: disable rhsm repositories
+  rhsm_repository: name={{ item }} state=disabled
+  notify: yum clean all
+  register: disable_repos
+  until: disable_repos | succeeded
+  with_items: "{{ rhsm_repositories_disabled | default([]) }}"

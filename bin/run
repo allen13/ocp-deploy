@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Run this script from the installation direcotory: bin/run
+# Use the run command as if it were ansible-playbook
+# EXAMPLE: bin/run -i hosts.tocp42 label-nodes.yml
+
+# If you want the name of the container used in the previous one to be
+# added to your current shell, use the `source` command, e.g.
+# $ source bin/run -i hosts.tocp42 label-nodes.yml
+# This will store the container name in LAST
+
+: "${RUN_NAME:=ocp-deploy-$(date +%F_%T | sed 's/:/./g')}"
+: "${OSE_ANSIBLE_IMAGE:=registry.access.redhat.com/openshift3/ose-ansible}"
+: "${OSE_ANSIBLE_TAG:=v3.10.111}"
+
+export LAST=$RUN_NAME
+
+docker run -it --rm \
+    --name $RUN_NAME \
+    -v $(pwd):/root/ocp-deploy \
+    --workdir /root/ocp-deploy \
+    -e HOME=/root/ocp-deploy \
+    -e WORK_DIR=/root/ocp-deploy \
+    -e ANSIBLE_RETRY_FILES_SAVE_PATH=/root/ocp-deploy \
+    -e ANSIBLE_CONFIG=/root/ocp-deploy/ansible.cfg \
+    --entrypoint "/usr/bin/ansible-playbook" \
+    --user root \
+    $OSE_ANSIBLE_IMAGE:$OSE_ANSIBLE_TAG \
+    "$@"
+
+echo ""
+echo "RUNNING: ansible-playbook $*"
+echo "USING IMAGE: $OSE_ANSIBLE_IMAGE:$OSE_ANSIBLE_TAG"
+echo "ON CONTAINER: $RUN_NAME"

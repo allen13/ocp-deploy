@@ -1,0 +1,6 @@
+- name: oc adm policy add-cluster-role-to-user cluster-admin admin
+  oc_adm_policy_user:
+    user: "{{ item.user }}"
+    resource_kind: "{{ item.kind }}"
+    resource_name: "{{ item.role }}"
+  with_items: "{{ openshift_user_permissions }}"
